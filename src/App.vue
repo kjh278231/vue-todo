@@ -1,28 +1,59 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <TodoHeader></TodoHeader>
+    <TodoInput></TodoInput>
+    <TodoList></TodoList>
+    <TodoFooter></TodoFooter>
   </div>
 </template>
 
+<script src="https://kit.fontawesome.com/a15ed7f64a.js" crossorigin="anonymous"></script>
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import TodoFooter from "@/components/TodoFooter";
+import TodoHeader from "@/components/TodoHeader";
+import TodoInput from "@/components/TodoInput";
+import TodoList from "@/components/TodoList";
+
+// var my_cmp = {
+//   template: '<div>my component<div>',
+//
+// };
+//
+// new Vue({
+//   el: ' ',
+//   components:{
+//     'my-cmp': my_cmp,
+//
+//   }
+// })
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
+    'TodoHeader': TodoHeader,
+    'TodoList' : TodoList,
+    'TodoInput': TodoInput,
+    'TodoFooter': TodoFooter,
   }
+
+
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  body {
+    text-align: center;
+    background-color: #F6F6F6;
+
+  }
+  input {
+    border-style: groove;
+    width: 200px;
+  }
+  button {
+    border-style: groove;
+  }
+  .shadow {
+    box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.03);
+  }
 </style>
