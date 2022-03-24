@@ -38,6 +38,7 @@ export default {
     }
   },
   created : function(){
+    // this.todoItems = [];
     if(localStorage.length>0){
       for (let i = 0; i < localStorage.length; i++){
         let stringJSON = localStorage.getItem(localStorage.key(i));
