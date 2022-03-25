@@ -1,12 +1,12 @@
 <template>
 <div>
   <transition-group name="list" tag="ul">
-    <li v-for="(todoItem,index) in propsdata" v-bind:key="todoItem.item" class="shadow">
+    <li v-for="(todoItem,index) in this.todoItems" v-bind:key="todoItem.item" class="shadow">
       <font-awesome-icon icon="fa-solid fa-check" class="checkBtn"
                          v-bind:class="{checkBtnCompleted: todoItem.completed}"
-                         v-on:click="toggleComplete(todoItem,index)"/>
+                         @click="toggleOneItem({todoItem,index})"/>
       <span v-bind:class="{textCompleted : todoItem.completed}">{{ todoItem.item }}</span>
-      <span class="removeBtn" v-on:click="removeTodo(todoItem,index)">
+      <span class="removeBtn" @click="removeOneItem({todoItem,index})">
         <font-awesome-icon icon="fa-solid fa-trash-can" />
       </span>
     </li>
@@ -17,23 +17,27 @@
 <script>
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUserSecret, faCheck, faTrashCan} from '@fortawesome/free-solid-svg-icons'
+import {mapGetters, mapMutations} from "vuex";
 
 library.add(faUserSecret, faCheck, faTrashCan);
 
 export default {
   name: "TodoList",
-  props: ['propsdata'],
   data(){
     return {};
   },
+  computed:{
+    ...mapGetters({todoItems:'storedTodoItems'})
+  },
   methods: {
-    removeTodo: function (todoItem,index) {
-      console.log(todoItem,index);
-      this.$emit('removeItem', todoItem, index);
-    },
-    toggleComplete(todoItem,index){
-      this.$emit('toggleItem', todoItem, index);
-    }
+    ...mapMutations(['removeOneItem', "toggleOneItem"]),
+    // removeTodo(todoItem, index) {
+    //   console.log(todoItem, index);
+    //   this.$store.commit('removeOneItem', {todoItem, index});
+    // },
+    // toggleComplete(todoItem, index) {
+    //   this.$store.commit('toggleOneItem', {todoItem, index});
+    // }
   },
 
 }

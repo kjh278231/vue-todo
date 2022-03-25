@@ -1,7 +1,7 @@
 <template>
   <div class="inputBox shadow">
     <input type="text" v-model="newTodoItem" v-on:keyup.enter="addTodo">
-    <span class="addContainer" v-on:click="addTodo">
+    <span class="addContainer" @click="addTodo">
       <font-awesome-icon icon="fa-solid fa-plus" class="addBtn"/>
     </span>
 
@@ -25,6 +25,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPlus,faTimes} from '@fortawesome/free-solid-svg-icons'
 import ModalComponent from '../common/ModalComponent.vue';
 
+
 library.add(faPlus,faTimes);
 
 export default {
@@ -38,7 +39,8 @@ export default {
   methods: {
     addTodo() {
       if (this.newTodoItem !== '') {
-        this.$emit('addTodoItem', this.newTodoItem);
+        // this.$emit('addTodoItem', this.newTodoItem);
+        this.$store.commit('addOneItem', this.newTodoItem);
         this.clearInput();
       } else {
         this.showModal = !this.showModal;
@@ -49,8 +51,7 @@ export default {
     }
   },
   components:{
-    'ModalComponent': ModalComponent,
-
+    ModalComponent,
   }
 }
 </script>

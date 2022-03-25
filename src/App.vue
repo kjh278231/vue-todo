@@ -1,11 +1,9 @@
 <template>
   <div id="app">
     <TodoHeader></TodoHeader>
-    <TodoInput v-on:addTodoItem='addOneItem'></TodoInput>
-    <TodoList v-bind:propsdata="todoItems"
-              v-on:removeItem="removeOneItem"
-              v-on:toggleItem="toggleOneItem"></TodoList>
-    <TodoFooter v-on:clearAll="clearAllItems"></TodoFooter>
+    <TodoInput></TodoInput>
+    <TodoList></TodoList>
+    <TodoFooter></TodoFooter>
   </div>
 </template>
 
@@ -16,54 +14,44 @@ import TodoFooter from "@/components/TodoFooter";
 import TodoHeader from "@/components/TodoHeader";
 import TodoInput from "@/components/TodoInput";
 import TodoList from "@/components/TodoList";
+import {mapState,mapGetters,mapMutations,mapActions} from 'vuex'
 
 export default {
-  data() {
-    return {
-      todoItems: [],
-    };
-  },
-  methods:{
-    addOneItem(todoItem) {
-      var obj = {completed: false, item: todoItem};
-      localStorage.setItem(todoItem, JSON.stringify(obj));
-      this.todoItems.push(obj);
-    },
-    removeOneItem(todoItem,index){
-      localStorage.removeItem(todoItem.item);
-      this.todoItems.splice(index, 1);
-    },
-    toggleOneItem(todoItem, index) {
-      // 안티패턴
-      // todoItem.completed = !todoItem.completed;
-      this.todoItems[index].completed = !this.todoItems[index].completed
-      localStorage.removeItem(todoItem);
-      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
-    },
-    clearAllItems(){
-      localStorage.clear();
-      this.todoItems = [];
-    }
+  // 헬퍼의 사용
 
-  },
-  created : function(){
-    // this.todoItems = [];
-    if(localStorage.length>0){
-      for (let i = 0; i < localStorage.length; i++){
-        let stringJSON = localStorage.getItem(localStorage.key(i));
-        this.todoItems.push(JSON.parse(stringJSON));
-      }
-
-    }
-  },
+  // data() {
+  //   return {
+  //     todoItems: [],
+  //   };
+  // },
+  // methods:{
+  //   addOneItem(todoItem) {
+  //     let obj = {completed: false, item: todoItem};
+  //     localStorage.setItem(todoItem, JSON.stringify(obj));
+  //     this.todoItems.push(obj);
+  //   },
+  //   removeOneItem(todoItem,index){
+  //     localStorage.removeItem(todoItem.item);
+  //     this.todoItems.splice(index, 1);
+  //   },
+  //   toggleOneItem(todoItem, index) {
+  //     // 안티패턴
+  //     // todoItem.completed = !todoItem.completed;
+  //     this.todoItems[index].completed = !this.todoItems[index].completed
+  //     localStorage.removeItem(todoItem);
+  //     localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
+  //   },
+  //   clearAllItems(){
+  //     localStorage.clear();
+  //     this.todoItems = [];
+  //   }
+  // },
   components: {
-    'TodoHeader': TodoHeader,
-    'TodoList' : TodoList,
-    'TodoInput': TodoInput,
-    'TodoFooter': TodoFooter,
+    TodoHeader,
+    TodoList,
+    TodoInput,
+    TodoFooter,
   }
-
-
 }
 </script>
 
