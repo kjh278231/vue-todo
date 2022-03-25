@@ -1,11 +1,13 @@
 <template>
 <div>
   <ul>
-    <li v-for="(todoItem,index) in todoItems" v-bind:key="todoItem.item" class="shadow">
-      <font-awesome-icon icon="fa-solid fa-check" class="checkBtn" v-bind:class="{checkBtnCompleted: todoItem.completed}" v-on:click="toggleComplete(todoItem)"/>
+    <li v-for="(todoItem,index) in propsdata" v-bind:key="todoItem.item" class="shadow">
+      <font-awesome-icon icon="fa-solid fa-check" class="checkBtn"
+                         v-bind:class="{checkBtnCompleted: todoItem.completed}"
+                         v-on:click="toggleComplete(todoItem,index)"/>
       <span v-bind:class="{textCompleted : todoItem.completed}">{{ todoItem.item }}</span>
       <span class="removeBtn" v-on:click="removeTodo(todoItem,index)">
-        <font-awesome-icon icon="fa-solid fa-user-secret" />
+        <font-awesome-icon icon="fa-solid fa-trash-can" />
       </span>
     </li>
 
@@ -15,38 +17,26 @@
 
 <script>
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUserSecret, faCheck} from '@fortawesome/free-solid-svg-icons'
-library.add(faUserSecret,faCheck)
+import { faUserSecret, faCheck, faTrashCan} from '@fortawesome/free-solid-svg-icons'
+
+library.add(faUserSecret, faCheck, faTrashCan);
 
 export default {
   name: "TodoList",
+  props: ['propsdata'],
   data(){
-    return{
-      todoItems: [],
-    }
+    return {};
   },
   methods: {
     removeTodo: function (todoItem,index) {
       console.log(todoItem,index);
-      localStorage.removeItem(todoItem);
-      this.todoItems.splice(index, 1);
+      this.$emit('removeItem', todoItem, index);
     },
-    toggleComplete(todoItem){
-      todoItem.completed = !todoItem.completed;
-      localStorage.removeItem(todoItem);
-      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
+    toggleComplete(todoItem,index){
+      this.$emit('toggleItem', todoItem, index);
     }
   },
-  created : function(){
-    // this.todoItems = [];
-    if(localStorage.length>0){
-      for (let i = 0; i < localStorage.length; i++){
-        let stringJSON = localStorage.getItem(localStorage.key(i));
-        this.todoItems.push(JSON.parse(stringJSON));
-      }
 
-    }
-  }
 }
 </script>
 
@@ -75,6 +65,7 @@ li {
   line-height: 45px;
   color: #62acde;
   margin-right: 5px;
+  margin-top: 15px;
 }
 .checkBtnCompleted{
   color: #b3adad;

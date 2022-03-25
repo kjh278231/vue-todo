@@ -2,12 +2,16 @@
   <div class="inputBox shadow">
     <input type="text" v-model="newTodoItem" v-on:keyup.enter="addTodo">
     <span class="addContainer" v-on:click="addTodo">
-      <button class='addBtn' >add</button>
+      <font-awesome-icon icon="fa-solid fa-plus" class="addBtn"/>
     </span>
   </div>
 </template>
 
 <script>
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faPlus} from '@fortawesome/free-solid-svg-icons'
+
+library.add(faPlus);
 
 export default {
   name: "TodoInput",
@@ -20,8 +24,7 @@ export default {
   methods:{
     addTodo(){
       if(this.newTodoItem!=='') {
-        var obj = {completed: false, item: this.newTodoItem};
-        localStorage.setItem(this.newTodoItem, JSON.stringify(obj));
+        this.$emit('addTodoItem', this.newTodoItem);
         this.clearInput();
       }
     },
